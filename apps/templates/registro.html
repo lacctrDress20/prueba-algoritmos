@@ -3,11 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de inicio de la ferretería</title>
-    <link rel="stylesheet" href="states/style.css">
+    <title>Página Principal</title>
 </head>
 <body>
-    <h1>Bienvenido a la ferretería "El tornillo feliz"</h1>
+    <h1>Bienvenido a la Tienda Online</h1>
+    
+    <!-- Enlace para buscar productos -->
+    <a href="/products">Buscar Productos</a><br>
+
+    <!-- Enlace para acceder al carrito de compras -->
+    <a href="/cart">Ver Carrito de Compras</a><br>
+
+    <!-- Enlace para realizar el proceso de pago -->
+    <a href="/checkout">Proceso de Pago</a><br>
+
+    <!-- Enlace para cancelar el pedido -->
+    <a href="/cancel_order">Cancelar Pedido</a><br>
+
+    <!-- Formulario de registro -->
     <h2>Registro de Usuario</h2>
     <form id="registroForm" action="/registro" method="post">
         <label for="nombre">Nombre:</label><br>
@@ -29,6 +42,7 @@
             // Realizar una solicitud AJAX al servidor para registrar el usuario
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/registro", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     alert("Usuario registrado con éxito.");
@@ -36,7 +50,7 @@
                     window.location.href = "/"; // Redireccionar a la página principal
                 }
             };
-            var data = "nombre=" + encodeURIComponent(nombre) + "&email=" + encodeURIComponent(email) + "&contraseña=" + encodeURIComponent(contraseña);
+            var data = JSON.stringify({ nombre: nombre, email: email, contraseña: contraseña });
             xhr.send(data);
         });
     </script>
