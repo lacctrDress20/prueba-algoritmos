@@ -31,5 +31,21 @@ def registro():
     ferreteria.registrar_usuario(nombre, email, contraseña)
     return jsonify({"mensaje": "Usuario registrado con éxito."})
 
+@app.route("/products")
+def products():
+    return render_template("products.html")
+
+@app.route("/cart")
+def cart():
+    return render_template("cart.html")
+
+@app.route("/checkout")
+def checkout():
+    return render_template("checkout.html")
+
+@app.route("/cancel_order")
+def cancel_order():
+    return render_template("cancel_order.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
