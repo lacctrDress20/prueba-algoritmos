@@ -8,11 +8,46 @@
 <body>
     <h1>Buscar Productos</h1>
     <!-- Formulario de búsqueda de productos -->
-    <form action="/products" method="GET">
-        <input type="text" name="query" placeholder="Buscar productos">
+    <form id="searchForm">
+        <input type="text" id="query" placeholder="Buscar productos">
         <button type="submit">Buscar</button>
     </form>
 
-    <!-- Aquí podrías mostrar los resultados de la búsqueda de productos -->
+    <!-- Sección para mostrar los resultados de la búsqueda -->
+    <div id="searchResults"></div>
+
+    <script>
+        document.getElementById("searchForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evitar el envío del formulario por defecto
+
+            var query = document.getElementById("query").value;
+
+            // Realizar una solicitud AJAX al servidor para buscar productos
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/products?query=" + query, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var results = JSON.parse(xhr.responseText);
+
+                    // Mostrar los resultados de la búsqueda en la sección correspondiente
+                    var searchResultsDiv = document.getElementById("searchResults");
+                    searchResultsDiv.innerHTML = ""; // Limpiar los resultados anteriores
+
+                    if (results.length === 0) {
+                        searchResultsDiv.innerHTML = "<p>No se encontraron resultados</p>";
+                    } else {
+                        results.forEach(function(product) {
+                            var productDiv = document.createElement("div");
+                            productDiv.innerHTML = "<h3>" + product.nombre + "</h3>" +
+                                "<p>Descripción: " + product.descripcion + "</p>" +
+                                "<p>Precio: $" + product.precio + "</p>";
+                            searchResultsDiv.appendChild(productDiv);
+                        });
+                    }
+                }
+            };
+            xhr.send();
+        });
+    </script>
 </body>
 </html>
